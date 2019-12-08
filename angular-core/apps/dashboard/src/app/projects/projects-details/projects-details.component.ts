@@ -15,8 +15,8 @@ export class ProjectsDetailsComponent  {
 
   @Input() set project(value) {
     if(value) this.originalTitle = value.title;
+    //Fix shared mutable state(copy by value and not by reference)
     this.currentProject = Object.assign({}, value);
   };
-
 
 }
