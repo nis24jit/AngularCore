@@ -9,9 +9,10 @@ export class AppComponent {
   title = 'Projects';
 
     links = [
+      {path: '/projects', icon:'work', title: 'Projects' },
       {path: '/', icon: 'home', title: 'Home' },
-      {path: '/customers', icon: 'face', title: 'Customer' },
-      {path: '/projects', icon:'work', title: 'Projects' }
+      {path: '/customers', icon: 'face', title: 'Customer' }
+
 
       ]
 }
