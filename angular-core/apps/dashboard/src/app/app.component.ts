@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'dashboard';
+  title = 'Projects';
+
+    links = [
+      {path: '/', icon: 'home', title: 'Home' },
+      {path: '/customers', icon: 'face', title: 'Customer' },
+      {path: '/projects', icon:'work', title: 'Projects' }
+
+      ]
 }
