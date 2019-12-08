@@ -1,44 +1,77 @@
-import {Component, OnInit} from '@angular/core';
-import {Project, ProjectsService} from "@workshop/core-data";
-import {Observable} from "rxjs";
-
+import { Component, OnInit } from '@angular/core';
+import { ProjectsService, Project } from '@workshop/core-data';
+import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.css']
+  styleUrls: ['./projects.component.scss']
+
 })
 export class ProjectsComponent implements OnInit {
+  primaryColor = 'red';
+  projects$;
+  selectedProject: Project;
 
-  primaryColor='red';
-  projects$:Observable<Project[]>;
 
-  constructor(private projectsService:ProjectsService) {
+
+  constructor(private projectsService: ProjectsService) {
   }
 
-
-  selectedProject;
-
   ngOnInit() {
-
-   this.getProjects();
+    this.getProjects();
+    this.resetProject();
   }
 
   selectProject(project) {
     this.selectedProject = project;
-
   }
 
-  getProjects(){
+  resetProject() {
+    const emptyProject: Project = {
+      id: null,
+      title: '',
+      details: '',
+      percentComplete: 0,
+      approved: false,
+    }
+    this.selectProject(emptyProject);
+  }
+
+  getProjects() {
     this.projects$ = this.projectsService.all();
-
   }
 
-  deleteProject(project){
-    this.projectsService.delete(project.id).subscribe(result=> this.getProjects());
+  saveProject(project) {
+    if(!project.id) {
+      this.createProject(project);
+    } else {
+      this.updateProject(project);
+    }
   }
 
-  cancel(){
-    this.selectProject(null);
+  createProject(project) {
+    this.projectsService.create(project)
+      .subscribe(result => {
+        this.getProjects();
+        this.resetProject();
+      });
   }
 
+  updateProject(project) {
+    this.projectsService.update(project)
+      .subscribe(result => {
+        this.getProjects();
+        this.resetProject();
+      });
+  }
+
+  deleteProject(project) {
+    this.projectsService.delete(project.id)
+      .subscribe(result => this.getProjects());
+  }
+
+  cancel() {
+    this.resetProject();
+  }
 }
